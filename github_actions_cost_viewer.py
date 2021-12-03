@@ -18,7 +18,8 @@ from datetime import datetime
 from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN
 
 FREE_TIER = {'shared storage': 50,  # GB
-             'actions': 50000}      # min/month
+             'actions': 3000,
+             'packages': 2}      # min/month
 
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
@@ -125,7 +126,7 @@ if __name__ == '__main__':
     parser.add_argument('filename', help='target csv filename')
     parser.add_argument('month', help='target month YYYY/M')
     args = parser.parse_args()
-    
+
     with open(args.filename) as f:
         reader = csv.reader(f)
         raw_data = [row for row in reader]
@@ -146,7 +147,7 @@ if __name__ == '__main__':
             row_dict[titles[i]] = item
         if is_target:
             data.append(row_dict)
-    
+
     os.makedirs('output', exist_ok=True)
     get_cost_bar_graph_pile(data, 'Product', 'Repository Slug', 'Product', True, True)
     repo_cost = get_cost_bar_graph_pile(data, 'Repository Slug', 'Product', 'Repository', True, True)
